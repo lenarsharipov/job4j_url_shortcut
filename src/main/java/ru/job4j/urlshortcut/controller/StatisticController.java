@@ -28,4 +28,5 @@ public class StatisticController {
                 HttpStatus.OK
         );
     }
+
 }

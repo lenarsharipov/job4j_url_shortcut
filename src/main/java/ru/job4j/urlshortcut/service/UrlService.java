@@ -1,6 +1,7 @@
 package ru.job4j.urlshortcut.service;
 
 import lombok.NonNull;
+import ru.job4j.urlshortcut.dto.ModifiedUrlDTO;
 import ru.job4j.urlshortcut.dto.OriginalUrlDTO;
 import ru.job4j.urlshortcut.dto.StatUrlDTO;
 import ru.job4j.urlshortcut.model.Url;
@@ -17,7 +18,7 @@ public interface UrlService {
      * @param originalUrlDTO UrlDTO. Type {@link OriginalUrlDTO}
      * @return Url. Type {@link ru.job4j.urlshortcut.model.Url}
      */
-    Url save(@NonNull OriginalUrlDTO originalUrlDTO);
+    ModifiedUrlDTO save(@NonNull OriginalUrlDTO originalUrlDTO, String token);
 
     /**
      * Get list of all persisted urls.
@@ -38,5 +39,7 @@ public interface UrlService {
      * @param urlId Url id. Type {@link Integer}
      */
     void incrementCalls(@NonNull Integer urlId);
+
+    Url getOriginalAndIncrement(String modifiedUrl);
 
 }

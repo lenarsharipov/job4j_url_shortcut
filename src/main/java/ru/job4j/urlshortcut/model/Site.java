@@ -1,5 +1,6 @@
 package ru.job4j.urlshortcut.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Site model.
@@ -27,19 +30,20 @@ public class Site {
     private Integer id;
 
     /**
-     * Web site url
+     * Unique Site name
      */
     @NotBlank(message = "Web site url cannot be blank")
-    @Column(name = "site", nullable = false)
+    @Column(name = "site", nullable = false, unique = true)
+    @EqualsAndHashCode.Include
     private String site;
 
     /**
-     * Username/login
+     * Unique Login
      */
     @EqualsAndHashCode.Include
     @NotBlank(message = "Login cannot be blank")
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "login", nullable = false, unique = true)
+    private String login;
 
     /**
      * Password
@@ -47,4 +51,17 @@ public class Site {
     @NotBlank(message = "Password cannot be blank")
     @Column(name = "password", nullable = false)
     private String password;
+
+    /**
+     * Collection of modified urls related
+     * with current web-site.
+     */
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "site",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnoreProperties("site")
+    private List<Url> urls = new ArrayList<>();
+
 }

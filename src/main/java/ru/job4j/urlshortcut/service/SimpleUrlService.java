@@ -3,16 +3,20 @@ package ru.job4j.urlshortcut.service;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import ru.job4j.urlshortcut.dto.ModifiedUrlDTO;
 import ru.job4j.urlshortcut.dto.OriginalUrlDTO;
 import ru.job4j.urlshortcut.dto.StatUrlDTO;
 import ru.job4j.urlshortcut.model.Url;
-import ru.job4j.urlshortcut.repository.*;
+import ru.job4j.urlshortcut.repository.SiteRepository;
+import ru.job4j.urlshortcut.repository.UrlRepository;
 import ru.job4j.urlshortcut.util.RandomCodeGenerator;
+import ru.job4j.urlshortcut.util.TokenUtil;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * UrlService interface implementation.
@@ -29,18 +33,27 @@ public class SimpleUrlService implements UrlService {
      */
     private final UrlRepository urlRepository;
 
+    private final SiteRepository siteRepository;
+
     /**
      * Convert passed urlDTO into Url and Save.
      * @param originalUrlDTO UrlDTO. Type {@link ru.job4j.urlshortcut.dto.OriginalUrlDTO}
      * @return Url. Type {@link ru.job4j.urlshortcut.model.Url}
      */
     @Override
-    public Url save(@NonNull OriginalUrlDTO originalUrlDTO) {
+    public ModifiedUrlDTO save(@NonNull OriginalUrlDTO originalUrlDTO, String token) {
+        var login = TokenUtil.getLogin(token);
+        if (siteRepository.findByLogin(login).isEmpty()) {
+            throw new IllegalArgumentException("Login not found");
+        }
         var url = new Url();
+        url.setSite(siteRepository.findByLogin(login).get());
         url.setOriginalUrl(originalUrlDTO.getUrl());
         var modifiedUrl = RandomCodeGenerator.generate(URL_LENGTH);
         url.setModifiedUrl(modifiedUrl);
-        return urlRepository.save(url);
+        urlRepository.save(url);
+
+        return new ModifiedUrlDTO(modifiedUrl);
     }
 
     /**
@@ -76,4 +89,16 @@ public class SimpleUrlService implements UrlService {
     public void incrementCalls(@NonNull Integer urlId) {
         urlRepository.incrementCalls(urlId);
     }
+
+    @Transactional
+    @Override
+    public Url getOriginalAndIncrement(String modifiedUrl) {
+        var url = findByModifiedUrl(modifiedUrl);
+        if (url.isEmpty()) {
+            throw new NoSuchElementException(modifiedUrl + " url does not exist");
+        }
+        incrementCalls(url.get().getId());
+        return url.get();
+    }
+
 }

@@ -38,7 +38,8 @@ public class Url {
     @NotBlank(message = "Shorted url should not be empty", groups = {
             Operation.OnUpdate.class, Operation.OnDelete.class
     })
-    @Column(name = "modified_url", nullable = false)
+    @Column(name = "modified_url", nullable = false, unique = true)
+    @EqualsAndHashCode.Include
     private String modifiedUrl;
 
     /**
@@ -46,4 +47,8 @@ public class Url {
      */
     @Column(name = "calls")
     private int calls;
+
+    @ManyToOne
+    @JoinColumn(name = "site_id")
+    private Site site;
 }

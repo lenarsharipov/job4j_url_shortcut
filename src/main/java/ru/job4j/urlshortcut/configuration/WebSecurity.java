@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ru.job4j.urlshortcut.service.SimpleUserDetailsService;
+import ru.job4j.urlshortcut.service.SimpleSiteService;
 import ru.job4j.urlshortcut.filter.*;
 
 import static ru.job4j.urlshortcut.filter.JWTAuthenticationFilter.SIGN_UP_URL;
@@ -27,7 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     /**
      * SimpleUserDetailsService
      */
-    private SimpleUserDetailsService userDetailsService;
+    private SimpleSiteService userDetails;
 
     /**
      * BCryptPasswordEncoder
@@ -60,7 +60,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userDetails).passwordEncoder(bCryptPasswordEncoder);
     }
 
     /**

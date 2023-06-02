@@ -1,14 +1,12 @@
 package ru.job4j.urlshortcut.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.job4j.urlshortcut.dto.ModifiedUrlDTO;
 import ru.job4j.urlshortcut.dto.OriginalUrlDTO;
-import ru.job4j.urlshortcut.model.Url;
 import ru.job4j.urlshortcut.service.UrlService;
 
 import javax.validation.Valid;
@@ -26,10 +24,12 @@ public class UrlConverter {
      * @return ResponseEntity of Url.
      */
     @PostMapping("/")
-    public ResponseEntity<Url> convertUrl(@Valid @RequestBody OriginalUrlDTO originalUrlDTO) {
+    public ResponseEntity<ModifiedUrlDTO> convertUrl(@Valid @RequestBody OriginalUrlDTO originalUrlDTO,
+                                                     @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return new ResponseEntity<>(
-                urlService.save(originalUrlDTO),
+                urlService.save(originalUrlDTO, token),
                 HttpStatus.CREATED
         );
     }
+
 }
