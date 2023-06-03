@@ -7,11 +7,23 @@ import ru.job4j.urlshortcut.model.Site;
 
 import java.util.Optional;
 
+/**
+ * Site service interface.
+ */
 public interface SiteService {
+    /**
+     * Save
+     */
     SignedUpDTO save(SiteDTO siteDTO);
 
+    /**
+     * Find by Login
+     */
     Optional<Site> findByLogin(@NonNull String login);
 
+    /**
+     * Find by site name
+     */
     Optional<Site> findBySite(@NonNull String site);
 
 }

@@ -7,12 +7,15 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 /**
- * UrlDTO
+ * Modified url DTO.
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ModifiedUrlDTO {
+    /**
+     * Modified url
+     */
     @NotBlank(message = "Url cannot be blank")
     private String url;
 }

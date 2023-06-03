@@ -11,6 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StatUrlDTO {
+    /**
+     * Url name
+     */
     private String url;
+
+    /**
+     * Total calls count
+     */
     private int total;
 }

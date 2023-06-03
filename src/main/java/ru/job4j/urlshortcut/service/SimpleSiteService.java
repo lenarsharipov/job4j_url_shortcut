@@ -56,16 +56,30 @@ public class SimpleSiteService implements SiteService, UserDetailsService {
         return new SignedUpDTO(true, login, password);
     }
 
+    /**
+     * Find site by passed login.
+     * @param login String. Type {@link java.lang.String}
+     * @return Optional of Site.
+     */
     @Override
     public Optional<Site> findByLogin(@NonNull String login) {
         return siteRepository.findByLogin(login);
     }
 
+    /**
+     * Find site by site name.
+     * @param site String. Type {@link java.lang.String}
+     * @return Optional of Site.
+     */
     @Override
     public Optional<Site> findBySite(@NonNull String site) {
         return siteRepository.findBySite(site);
     }
 
+    /**
+     * Validating if passed site exists.
+     * @param siteDTO SiteDto. Type {@link ru.job4j.urlshortcut.dto.SiteDTO}
+     */
     private void validateSiteExists(SiteDTO siteDTO) {
         if (findBySite(siteDTO.getSite()).isPresent()) {
             throw new IllegalArgumentException(

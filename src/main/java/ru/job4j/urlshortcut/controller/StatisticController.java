@@ -11,10 +11,16 @@ import ru.job4j.urlshortcut.service.UrlService;
 
 import java.util.List;
 
+/**
+ * Statistics providing controller.
+ */
 @RestController
 @RequestMapping("/statistic")
 @AllArgsConstructor
 public class StatisticController {
+    /**
+     * Url Service
+     */
     private final UrlService urlService;
 
     /**

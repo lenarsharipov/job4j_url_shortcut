@@ -14,6 +14,9 @@ import ru.job4j.urlshortcut.service.UrlService;
 @AllArgsConstructor
 public class RedirectController {
 
+    /**
+     * Url Service
+     */
     private final UrlService urlService;
 
     /**

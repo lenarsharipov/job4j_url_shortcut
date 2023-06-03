@@ -53,8 +53,8 @@ public class Site {
     private String password;
 
     /**
-     * Collection of modified urls related
-     * with current web-site.
+     * Collection of modified urls associated
+     * with unique web-site persisted in DB.
      */
     @OneToMany(
             fetch = FetchType.LAZY,

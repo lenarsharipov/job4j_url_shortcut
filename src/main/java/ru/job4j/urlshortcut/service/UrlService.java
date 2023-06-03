@@ -40,6 +40,11 @@ public interface UrlService {
      */
     void incrementCalls(@NonNull Integer urlId);
 
+    /**
+     * Return original URL found by passed modified url then increment call count by +1.
+     * @param modifiedUrl Url. Type {@link ru.job4j.urlshortcut.dto.ModifiedUrlDTO}
+     * @return ModifiedUrlDTO
+     */
     Url getOriginalAndIncrement(String modifiedUrl);
 
 }

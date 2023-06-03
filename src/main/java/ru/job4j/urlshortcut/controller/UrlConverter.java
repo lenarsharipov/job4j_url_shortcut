@@ -11,11 +11,17 @@ import ru.job4j.urlshortcut.service.UrlService;
 
 import javax.validation.Valid;
 
+/**
+ * Url converter controller.
+ */
 @RestController
 @RequestMapping("/convert")
 @AllArgsConstructor
 public class UrlConverter {
 
+    /**
+     * Url Service.
+     */
     private final UrlService urlService;
 
     /**

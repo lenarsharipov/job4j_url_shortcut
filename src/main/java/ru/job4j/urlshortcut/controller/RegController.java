@@ -20,10 +20,13 @@ import javax.validation.Valid;
 @RequestMapping("/sites")
 @AllArgsConstructor
 public class RegController {
+    /**
+     * Site Service
+     */
     private final SiteService siteService;
 
     /**
-     * Sign-up
+     * Sign-up endpoint.
      * @param siteDto SiteDTO. Type {@link ru.job4j.urlshortcut.dto.SiteDTO}
      * @return ResponseEntity of SignedUpDTO.
      */

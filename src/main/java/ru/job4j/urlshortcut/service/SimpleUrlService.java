@@ -90,6 +90,11 @@ public class SimpleUrlService implements UrlService {
         urlRepository.incrementCalls(urlId);
     }
 
+    /**
+     * Return original url found by passed modified url and increment call count.
+     * @param modifiedUrl Url. Type {@link ru.job4j.urlshortcut.dto.ModifiedUrlDTO}
+     * @return Url object.
+     */
     @Transactional
     @Override
     public Url getOriginalAndIncrement(String modifiedUrl) {

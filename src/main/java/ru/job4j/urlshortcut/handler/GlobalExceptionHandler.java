@@ -16,20 +16,29 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Global exception handler ofNPE, IllegalArgumentException,
- * and MethodArgumentNotValidException.
+ * Global exception handler.
  */
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
     private final ObjectMapper objectMapper;
 
+    /**
+     * ObjectMapper object.
+     * @param objectMapper ObjectMapper. Type {@link com.fasterxml.jackson.databind.ObjectMapper}
+     */
     public GlobalExceptionHandler(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * NPE handler
+     * @param e Exception. Type {@link java.lang.Exception}
+     * @param response Response. Type {@link javax.servlet.http.HttpServletResponse}
+     * @throws IOException exception. Type {@link java.io.IOException}
+     */
     @ExceptionHandler(value = {NullPointerException.class})
-    public void handleException(Exception e, HttpServletResponse response) throws IOException {
+    public void npeHandler(Exception e, HttpServletResponse response) throws IOException {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setContentType("application/json");
         response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() {
@@ -41,10 +50,17 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage());
     }
 
+    /**
+     * Additional handler.
+     * @param e Exception. Type {@link java.lang.Exception}
+     * @param request Request. Type {@link javax.servlet.http.HttpServletRequest}
+     * @param response Response. Type {@link javax.servlet.http.HttpServletResponse}
+     * @throws IOException exception. Type {@link java.io.IOException}
+     */
     @ExceptionHandler(value = { IllegalArgumentException.class })
-    public void exceptionHandler(Exception e,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response) throws IOException {
+    public void additionalHandler(Exception e,
+                                  HttpServletRequest request,
+                                  HttpServletResponse response) throws IOException {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setContentType("application/json");
         response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
@@ -53,8 +69,13 @@ public class GlobalExceptionHandler {
         }}));
     }
 
+    /**
+     * MethodArgumentNotValidException handler.
+     * @param e MethodArgumentNotValidException. Type {@link org.springframework.web.bind.MethodArgumentNotValidException}
+     * @return ResponseEntity<?>.
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handle(MethodArgumentNotValidException e) {
+    public ResponseEntity<?> methodArgumentExceptionHandler(MethodArgumentNotValidException e) {
         return ResponseEntity.badRequest().body(
                 e.getFieldErrors().stream()
                         .map(f -> Map.of(

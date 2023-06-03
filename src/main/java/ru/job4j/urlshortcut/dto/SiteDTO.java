@@ -6,10 +6,16 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * Site Dto.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SiteDTO {
+    /**
+     * Site name
+     */
     @NotBlank(message = "Site name cannot be blank, null, empty")
     private String site;
 }

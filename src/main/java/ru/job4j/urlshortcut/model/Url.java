@@ -48,6 +48,10 @@ public class Url {
     @Column(name = "calls")
     private int calls;
 
+    /**
+     * Site id key binding current url with
+     * persisted site.
+     */
     @ManyToOne
     @JoinColumn(name = "site_id")
     private Site site;
