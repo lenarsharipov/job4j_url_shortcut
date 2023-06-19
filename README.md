@@ -1,4 +1,4 @@
-# "JOB4J_URL_SHORTCUT" REST API SERVICE
+# "URL_SHORTCUT" REST API SERVICE
 
 Client sends original long url, service converts int into short version and send back.
 
